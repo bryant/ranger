@@ -6,7 +6,7 @@ from __future__ import (absolute_import, division, print_function)
 import os
 import stat
 import sys
-from shutil import (_samefile, rmtree, _basename, Error, SpecialFileError)
+from shutil import (_samefile, rmtree, _basename, Error)
 
 __all__ = ["copyfileobj", "copyfile", "copystat", "copy2", "BLOCK_SIZE",
            "copytree", "move", "rmtree", "Error", "SpecialFileError"]
@@ -145,7 +145,7 @@ def copyfile(src, dst):
         else:
             # XXX What about other special files? (sockets, devices...)
             if stat.S_ISFIFO(st.st_mode):
-                raise SpecialFileError("`%s` is a named pipe" % fn)
+                raise Exception("`%s` is a named pipe" % fn)
 
     with open(src, 'rb') as fsrc:
         with open(dst, 'wb') as fdst:
