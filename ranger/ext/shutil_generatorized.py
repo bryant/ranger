@@ -6,7 +6,7 @@ from __future__ import (absolute_import, division, print_function)
 import os
 import stat
 import sys
-from shutil import (_samefile, rmtree, _basename, _destinsrc, Error, SpecialFileError)
+from shutil import (_samefile, rmtree, _basename, Error, SpecialFileError)
 
 __all__ = ["copyfileobj", "copyfile", "copystat", "copy2", "BLOCK_SIZE",
            "copytree", "move", "rmtree", "Error", "SpecialFileError"]
@@ -297,3 +297,12 @@ def move(src, dst, overwrite=False):
             for done in copy2(src, real_dst, symlinks=True, overwrite=overwrite):
                 yield done
             os.unlink(src)
+
+def _destinsrc(src, dst):
+    src = abspath(src)
+    dst = abspath(dst)
+    if not src.endswith(os.path.sep):
+        src += os.path.sep
+    if not dst.endswith(os.path.sep):
+        dst += os.path.sep
+    return dst.startswith(src)
